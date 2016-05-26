@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>Montana Cities</title>
+		<script>
+		
+			function preventBehavior(e)
+			{
+				e.preventDefault();
+			};
+			
+			function funShowItem(inc_element_id){
+				document.getElementById(inc_element_id).style.visibility = "visible";
+				document.getElementById(inc_element_id).style.display = "block";
+			}
+			
+			function funHideItem(inc_element_id){
+				document.getElementById(inc_element_id).style.visibility = "hidden";
+				document.getElementById(inc_element_id).style.display = "none";
+			}
+			
+			function randint( l, u )
+			// Returns an integer uniformly distributed over l..u.
+			{
+				return l + Math.floor( Math.random() * ( u + 1 - l ));
+			}
+			
+			function generate( )
+			{
+				var minval = 0;
+				var maxval = 24;
+				
+				
+				var a = new Array( maxval - minval + 1 );
+				
+				
+				for ( var i = 0, j = minval; j <= maxval; i++, j++ )
+				{
+					a[i] = j;
+				}
+				
+				
+				for ( var i = a.length - 1; i > 0; i-- )
+				{
+					var j = randint( 0, i );
+					
+					// Swap the elements at positions i and j.
+					var temp = a[i];
+					a[i] = a[j];
+					a[j] = temp;
+				}
+				
+				for ( var i = 0; i < a.length; i++ )
+				{
+					arrCityRandom[i] = arrCityNames[a[i]];
+				}
+				
+			}
+			
+			var arrCityRandom = new Array(25);
+			var arrCityAnswers = new Array(25);
+			var arrCityNames = ["Chicago",
+								"Springfield",
+								"Bloomington-Normal",
+								"Champaign-Urbana",
+								"DeKalb",
+								"Aurora",
+								"Naperville",
+								"Waukegan",
+								"Rockford",
+								"Joliet",
+								"Peoria",
+								"Elgin",
+								"Cairo",
+								"Carbondale",
+								"Decatur",
+								"Moline",
+								"Alton",
+								"East Saint Louis",
+								"Galesburg",
+								"Mount Vernon",
+								"Pontiac",
+								"Danville",
+								"Waterloo",
+								"Kankakee",
+								"Macomb"
+							 ];
+						
+			
+			
+			 
+			var arrCityLefts=["547",
+							  "331",
+							  "404",
+							  "464",
+							  "429",
+							  "464",
+							  "515",
+							  "527",
+							  "397",
+							  "497",
+							  "334",
+							  "464",
+							  "384",
+							  "384",
+							  "394",
+							  "241",
+							  "270",
+							  "276",
+							  "251",
+							  "410",
+							  "447",
+							  "555",
+							  "275",
+							  "522",
+							  "226"
+							  ];
+			
+			
+			/*
+			 Town					Left(x)		Top(y)
+			 ===============		========	=======
+			 "Chicago",				547			115
+			 "Springfield",			331			432
+			 "Bloomington-Normal",	404			315
+			 "Champaign-Urbana",	464			363
+			 "DeKalb",				429			111
+			 "Aurora",				464			132
+			 "Naperville",			515			132
+			 "Waukegan",			527			47
+			 "Rockford",			397			64
+			 "Joliet",				497			174
+			 "Peoria",				334			295
+			 "Elgin",				464			99
+			 "Cairo",				384			816
+			 "Carbondale",			384			723
+			 "Decatur",				394			421
+			 "Moline",				241			178
+			 "Alton",				270			546
+			 "East Saint Louis",	276			586
+			 "Galesburg",			251			259
+			 "Mount Vernon",		410			641
+			 "Pontiac",				447			272
+			 "Danville",			555			363
+			 "Waterloo",			275			636
+			 "Kankakee",			522			245
+			 "Macomb"				226			332
+			 */
+			var arrCityTops=["115",
+							  "432",
+							  "315",
+							  "363",
+							  "111",
+							  "132",
+							  "132",
+							  "47",
+							  "64",
+							  "174",
+							  "295",
+							  "99",
+							  "816",
+							  "723",
+							  "421",
+							  "178",
+							  "546",
+							  "586",
+							  "259",
+							  "641",
+							  "272",
+							  "363",
+							  "636",
+							  "245",
+							  "332"
+							  ];
+			
+			function funStart(){
+				for (var i=0;i<arrCityNames.length;i++)
+				{
+					divCity = document.createElement("div");
+					divCity.setAttribute("id","div_city_" + arrCityNames[i]);
+					divCity.setAttribute("class","div_city");
+					divCity.style.left = arrCityLefts[i] + "px";
+					divCity.style.top = arrCityTops[i] + "px";
+					document.getElementById("div_container").appendChild(divCity);
+					document.getElementById("div_city_" + arrCityNames[i]).addEventListener('touchstart', funCityTap, false);
+				}
+			}
+					
+			function funCityTap(e){
+				if((intActiveGame == 1) && (document.getElementById(e.target.id).className != "div_city_blue")){
+					strCityTapped = e.target.id;
+					document.getElementById(e.target.id).className = "div_city_blue";
+					strCityTapped = strCityTapped.replace("div_city_","");
+					arrCityAnswers[intCurrentQuestion] = strCityTapped;
+					intCurrentQuestion = intCurrentQuestion + 1;
+					funShowQuestion();
+				}
+				if(intLearnMode == 1){
+					for (var i=0;i<arrCityNames.length;i++)
+					{
+						document.getElementById("div_city_" + arrCityNames[i]).className = "div_city";
+						
+					}
+					strCityTapped = e.target.id;
+					strCityTapped = strCityTapped.replace("div_city_","");
+					document.getElementById("div_prompt").innerHTML = strCityTapped;
+					document.getElementById(e.target.id).className = "div_city_green";
+				}
+			}
+			
+			function funHome(){
+				intLearnMode = 0;
+				intActiveGame = 0;
+				intCurrentQuestion = 0;
+				intAnswersCorrect = 0;
+				funHideItem("div_prompt");
+				funHideItem("div_quit_button");
+				funHideItem("div_home_button");
+				funHideItem("div_results");
+				funShowItem("div_start_button");
+				funShowItem("div_learn_button");
+				for (var i=0;i<arrCityNames.length;i++)
+				{
+					document.getElementById("div_city_" + arrCityNames[i]).className = "div_city";
+					
+				}
+			}
+			
+			
+			function funStartGame(){
+				funHideItem("div_learn_button");
+				funHideItem("div_start_button");
+				funShowItem("div_prompt");
+				funShowItem("div_quit_button");
+				intActiveGame = 1;
+				intCurrentQuestion = 0;
+				generate();
+				funShowQuestion();
+			}
+			
+			function funShowQuestion(){
+				if(intCurrentQuestion < 25){
+					document.getElementById("div_prompt").innerHTML = "Tap " + arrCityRandom[intCurrentQuestion];
+				}else{
+					funGameOver();
+				}
+			}
+			
+			
+			function funGameOver(){
+				intActiveGame = 0;
+				intCurrentQuestion = 0;
+				intAnswersCorrect = 0;
+				for (var i=0;i<arrCityNames.length;i++)
+				{
+					if(arrCityRandom[i] == arrCityAnswers[i]){
+						intAnswersCorrect++;
+						document.getElementById("div_city_" + arrCityRandom[i]).className = "div_city_green";
+					}else{
+						document.getElementById("div_city_" + arrCityRandom[i]).className = "div_city_red";
+					}
+					
+				}
+				intScore = intAnswersCorrect * 4;
+				funHideItem("div_prompt");
+				funHideItem("div_quit_button");
+				document.getElementById("div_results").innerHTML = "Your Score: " + intScore.toString() + "%";
+				funShowItem("div_results");
+				funShowItem("div_home_button");
+			}
+			
+			function funLearn(){
+				intLearnMode = 1;
+				funHideItem("div_learn_button");
+				funHideItem("div_start_button");
+				funShowItem("div_prompt");
+				document.getElementById("div_prompt").innerHTML = "Tap a City"
+				funShowItem("div_home_button");
+			}
+			
+			var intLearnMode = 0;
+			var intActiveGame = 0;
+			var intCurrentQuestion = 0;
+			var intAnswersCorrect = 0;
+			
+		</script>
+		<style>
+			body, div, img{
+				margin: 0px;
+				padding: 0px;
+				
+			}
+			#div_container{
+				background: url('img/background.png');
+				background-size: 100%;
+				width: 768px;
+				height: 1004px;
+			}
+			#div_start_button{
+				background: url('img/start.png');
+				background-size: 100%;
+				width: 210px;
+				height: 118px;
+				position: absolute;
+				top: 890px;
+				left: 475px;
+			}
+			#div_learn_button{
+				background: url('img/learn.png');
+				background-size: 100%;
+				width: 210px;
+				height: 118px;
+				position: absolute;
+				top: 890px;
+				left: 80px;
+			}
+			#div_home_button{
+				background: url('img/home.png');
+				background-size: 100%;
+				width: 210px;
+				height: 118px;
+				position: absolute;
+				top: 890px;
+				left: 540px;
+				visibility: hidden;
+				display: none;
+			}
+			#div_quit_button{
+				background: url('img/quit.png');
+				background-size: 100%;
+				width: 210px;
+				height: 118px;
+				position: absolute;
+				top: 890px;
+				left: 540px;
+				visibility: hidden;
+				display: none;
+			}
+			#div_prompt{
+				width: 495px;
+				height: 60px;
+				position: absolute;
+				top: 890px;
+				left: 5px;
+				padding: 20px;
+				visibility: hidden;
+				display: none;
+				text-align: center;
+				font-size: 36px;
+				font-family: Verdana;
+				color: #FFF;
+			}
+			#div_results{
+				width: 495px;
+				height: 60px;
+				position: absolute;
+				top: 890px;
+				left: 5px;
+				padding: 20px;
+				visibility: hidden;
+				display: none;
+				text-align: center;
+				font-size: 48px;
+				font-family: Verdana;
+				color: #FFF;
+			}
+			.div_city{
+				background: url('img/pin_grey.png');
+				background-size: 100%;
+				width: 25px;
+				height: 31px;
+				position: absolute;
+			}
+			.div_city_blue{
+				background: url('img/pin_blue.png');
+				background-size: 100%;
+				width: 25px;
+				height: 31px;
+				position: absolute;
+			}
+			.div_city_green{
+				background: url('img/pin_green.png');
+				background-size: 100%;
+				width: 25px;
+				height: 31px;
+				position: absolute;
+			}
+			.div_city_red{
+				background: url('img/pin_red.png');
+				background-size: 100%;
+				width: 25px;
+				height: 31px;
+				position: absolute;
+			}
+			.div_city_tapped{
+				background: url('img/pin_grey.png');
+				background-size: 100%;
+				width: 25px;
+				height: 31px;
+				position: absolute;
+			}
+			#div_preload{
+				position: absolute;
+				left: -10000px;
+				top: -10000px;
+			}
+			
+		</style>
+
+    </head>
+    <body>
+		<div id="div_container">
+			<div id="div_learn_button"></div>
+			<div id="div_start_button"></div>
+			<div id="div_home_button"></div>
+			<div id="div_quit_button"></div>
+			<div id="div_prompt"></div>
+			<div id="div_results"></div>
+		</div>
+		<div id="div_preload">
+			<img src="img/pin_blue.png">
+			<img src="img/pin_green.png">
+			<img src="img/pin_red.png">
+		</div>
+        <script type="text/javascript" src="cordova-2.2.0rc1.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+    </body>
+</html>
